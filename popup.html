@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopee Statistics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 400px;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ee4d2d 0%, #ff6347 100%);
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #ee4d2d;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .year-selector {
+            margin-bottom: 15px;
+        }
+        
+        .year-selector label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .year-selector select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ee4d2d;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .year-selector select:focus {
+            border-color: #d73211;
+        }
+        
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .status.checking {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.loading {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .results {
+            display: none;
+            margin-top: 15px;
+        }
+        
+        .result-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #ee4d2d;
+        }
+        
+        .result-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        
+        .result-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .result-value.highlight {
+            color: #ee4d2d;
+            font-size: 22px;
+        }
+        
+        .result-value.green {
+            color: #28a745;
+        }
+        
+        .cert-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ee4d2d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #d73211;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .progress {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .login-warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .login-warning h3 {
+            color: #856404;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .login-warning p {
+            color: #856404;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .login-warning ol {
+            margin-left: 20px;
+            color: #856404;
+            font-size: 13px;
+        }
+        
+        .login-warning li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Thống Kê Shopee</h1>
+        
+        <div id="loginWarning" class="login-warning" style="display: none;">
+            <h3>Chưa đăng nhập Shopee</h3>
+            <p>Vui lòng thực hiện các bước sau:</p>
+            <ol>
+                <li>Mở tab mới và truy cập <strong>shopee.vn</strong></li>
+                <li>Đăng nhập vào tài khoản Shopee của bạn</li>
+                <li>Quay lại đây và nhấn nút "Tính thống kê"</li>
+            </ol>
+        </div>
+        
+        <div id="status" class="status checking">
+            Đang kiểm tra phiên đăng nhập...
+        </div>
+        
+        <div class="year-selector">
+            <label for="yearSelect"> Chọn năm thống kê:</label>
+            <select id="yearSelect">
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+            </select>
+        </div>
+        
+        <button id="calculateBtn" disabled>Tính thống kê</button>
+        
+        <div class="progress" id="progress" style="display: none;"></div>
+        
+        <div class="results" id="results">            
+            <div class="result-item">
+                <div class="result-label"> Tổng tiền đơn hàng năm <span id="resultYear">2025</span></div>
+                <div class="result-value highlight" id="totalAmount">0 ₫</div>
+            </div>
+            
+            <div class="result-item">
+                <div class="result-label"> Tổng đơn hàng đã giao</div>
+                <div class="result-value" id="totalOrders">0 đơn</div>
+            </div>
+            
+            <div class="result-item">
+                <div class="result-label"> Số lượng sản phẩm đã đặt</div>
+                <div class="result-value" id="totalProducts">0 sản phẩm</div>
+            </div>
+            
+            <div class="result-item">
+                <div class="result-label"> Tổng tiền tiết kiệm</div>
+                <div class="result-value green" id="totalSaved">0 ₫</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
