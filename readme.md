@@ -108,7 +108,7 @@ Dự án này được phát hành dưới giấy phép MIT - xem file [LICENSE]
 
 ## 👨‍💻 Tác giả
 
-- GitHub: [@yourusername](https://github.com/yourusername)
+- GitHub: [@hinh2003](https://github.com/hinh2003)
 
 ## ⭐ Support
 
