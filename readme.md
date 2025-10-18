@@ -30,7 +30,7 @@ _(Sẽ cập nhật link khi được publish)_
 
 1. Tải xuống hoặc clone repository này:
 ```bash
-git clone https://github.com/hinh2003/shopee-order-statistics.git
+git clone https://github.com/hinh2003/shoppe_order.git
 ```
 
 2. Mở Chrome và truy cập `chrome://extensions/`
