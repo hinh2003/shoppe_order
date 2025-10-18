@@ -16,8 +16,9 @@ Tiện ích mở rộng Chrome giúp thống kê đơn hàng Shopee của bạn 
 - 🔒 **An toàn**: Không lưu trữ bất kỳ dữ liệu cá nhân nào
 
 ## 📸 Screenshot
+<img src="images/demo.jpg" alt="demo1" width="200"/>
 
-<img src="images/demo.jpg" alt="demo" width="200"/>
+<img src="images/demo.jpg" alt="demo2" width="200"/>
 
 
 ## 🚀 Cài đặt
