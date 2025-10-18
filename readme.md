@@ -133,6 +133,25 @@ Cảm ơn bạn rất nhiều! 🙏
 
 Có câu hỏi? Hãy tạo [issue](https://github.com/hinh2003/shopee-order-statistics/issues) hoặc liên hệ trực tiếp qua GitHub.
 
+## 🔒 Privacy Policy
+
+Shopee Order does not collect, store, or share any personal data from users.
+The extension only accesses Shopee cookies locally to check login status and fetch order data directly from the Shopee website.
+All data is processed entirely on your device — no information is transmitted to any external servers or third parties.
+
+Permissions explanation:
+
+cookies: Used to verify Shopee login status
+
+storage: Used to store user settings (e.g., selected year)
+
+scripting: Used to inject code into Shopee pages to calculate order statistics
+
+activeTab: Used to interact with the active Shopee tab
+
+Shopee Order does not include advertising, analytics, or tracking of any kind.
+If you have any questions, please contact us via the Chrome Web Store developer contact page.
+
 ---
 
 **Lưu ý**: Extension này không liên kết chính thức với Shopee. Đây là dự án độc lập được tạo ra để giúp người dùng thống kê đơn hàng của họ dễ dàng hơn.
