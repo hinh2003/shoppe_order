@@ -68,7 +68,6 @@ git clone https://github.com/hinh2003/shoppe_order.git
 Extension này yêu cầu các quyền sau:
 
 - `cookies`: Để kiểm tra trạng thái đăng nhập Shopee
-- `storage`: Lưu trữ cài đặt người dùng
 - `scripting`: Inject script để lấy dữ liệu đơn hàng
 - `activeTab`: Tương tác với tab Shopee đang mở
 - `host_permissions`: Chỉ hoạt động trên domain shopee.vn
