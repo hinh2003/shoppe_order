@@ -12,10 +12,12 @@
         }
         
         body {
-            width: 400px;
+            width: 100%;
+            max-width: 450px;
             padding: 20px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #ee4d2d 0%, #ff6347 100%);
+            min-height: 100vh;
         }
         
         .container {
@@ -56,7 +58,18 @@
             outline: none;
         }
         
-        .year-selector select:focus {
+        .year-selector input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ee4d2d;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            outline: none;
+        }
+        
+        .year-selector input:focus {
             border-color: #d73211;
         }
         
@@ -196,10 +209,10 @@
 </head>
 <body>
     <div class="container">
-        <h1> Thống Kê Shopee</h1>
+        <h1>📊 Thống Kê Shopee</h1>
         
         <div id="loginWarning" class="login-warning" style="display: none;">
-            <h3>Chưa đăng nhập Shopee</h3>
+            <h3>⚠️ Chưa đăng nhập Shopee</h3>
             <p>Vui lòng thực hiện các bước sau:</p>
             <ol>
                 <li>Mở tab mới và truy cập <strong>shopee.vn</strong></li>
@@ -209,23 +222,12 @@
         </div>
         
         <div id="status" class="status checking">
-            Đang kiểm tra phiên đăng nhập...
+            ⏳ Đang kiểm tra phiên đăng nhập...
         </div>
         
         <div class="year-selector">
-            <label for="yearSelect"> Chọn năm thống kê:</label>
-            <select id="yearSelect">
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-                <option value="2017">2017</option>
-                <option value="2016">2016</option>
-            </select>
+            <label for="yearSelect">📅 Nhập năm thống kê:</label>
+            <input type="number" id="yearSelect" min="2000" max="2025" value="2025" placeholder="Nhập năm (vd: 2024)">
         </div>
         
         <button id="calculateBtn" disabled>Tính thống kê</button>
@@ -234,22 +236,22 @@
         
         <div class="results" id="results">            
             <div class="result-item">
-                <div class="result-label"> Tổng tiền đơn hàng năm <span id="resultYear">2025</span></div>
+                <div class="result-label">💰 Tổng tiền đơn hàng năm <span id="resultYear">2025</span></div>
                 <div class="result-value highlight" id="totalAmount">0 ₫</div>
             </div>
             
             <div class="result-item">
-                <div class="result-label"> Tổng đơn hàng đã giao</div>
+                <div class="result-label">📦 Tổng đơn hàng đã giao</div>
                 <div class="result-value" id="totalOrders">0 đơn</div>
             </div>
             
             <div class="result-item">
-                <div class="result-label"> Số lượng sản phẩm đã đặt</div>
+                <div class="result-label">🛍️ Số lượng sản phẩm đã đặt</div>
                 <div class="result-value" id="totalProducts">0 sản phẩm</div>
             </div>
             
             <div class="result-item">
-                <div class="result-label"> Tổng tiền tiết kiệm</div>
+                <div class="result-label">💚 Tổng tiền tiết kiệm</div>
                 <div class="result-value green" id="totalSaved">0 ₫</div>
             </div>
         </div>

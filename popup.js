@@ -4,22 +4,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     const calculateBtn = document.getElementById('calculateBtn');
     const loginWarning = document.getElementById('loginWarning');
 
+    // Tải kết quả đã lưu (nếu có)
+    await loadSavedResults();
+
     const hasSession = await checkShopeeSession();
 
     if (hasSession) {
         statusDiv.className = 'status success';
-        statusDiv.textContent = 'Đã đăng nhập Shopee';
+        statusDiv.textContent = '✅ Đã đăng nhập Shopee';
         calculateBtn.disabled = false;
         loginWarning.style.display = 'none';
     } else {
         statusDiv.className = 'status error';
-        statusDiv.textContent = 'Chưa đăng nhập Shopee';
+        statusDiv.textContent = '❌ Chưa đăng nhập Shopee';
         calculateBtn.disabled = true;
         loginWarning.style.display = 'block';
     }
 
     calculateBtn.addEventListener('click', startCalculation);
 });
+
+// Tải kết quả đã lưu từ chrome.storage
+async function loadSavedResults() {
+    try {
+        const result = await chrome.storage.local.get(['lastResult', 'lastYear', 'lastCalculated']);
+        
+        if (result.lastResult && result.lastYear) {
+            const resultsDiv = document.getElementById('results');
+            const savedTime = result.lastCalculated ? new Date(result.lastCalculated).toLocaleString('vi-VN') : '';
+            
+            displayResults(result.lastResult, result.lastYear);
+            
+            // Thêm thông báo về dữ liệu đã lưu
+            const status = document.getElementById('status');
+            status.className = 'status success';
+            status.textContent = `📊 Kết quả đã lưu (${savedTime})`;
+        }
+    } catch (error) {
+        console.error('Lỗi khi tải kết quả:', error);
+    }
+}
 
 async function checkShopeeSession() {
     try {
@@ -38,7 +62,7 @@ async function startCalculation() {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
     if (!tab || !tab.url || !tab.url.includes('shopee.vn')) {
-        alert(' Vui lòng mở tab Shopee (shopee.vn) trước khi tính thống kê!');
+        alert('⚠️ Vui lòng mở tab Shopee (shopee.vn) trước khi tính thống kê!');
         return;
     }
 
@@ -77,21 +101,37 @@ async function startCalculation() {
 
         if (result.tongDonHang === 0) {
             status.className = 'status error';
-            status.textContent = ` Không tìm thấy đơn hàng đã giao năm ${selectedYear}`;
+            status.textContent = `⚠️ Không tìm thấy đơn hàng đã giao năm ${selectedYear}`;
             progress.style.display = 'none';
             btn.disabled = false;
             return;
         }
 
+        // Lưu kết quả vào chrome.storage
+        await chrome.storage.local.set({
+            lastResult: result,
+            lastYear: selectedYear,
+            lastCalculated: new Date().toISOString()
+        });
+
         displayResults(result, selectedYear);
         status.className = 'status success';
-        status.textContent = ` Hoàn thành! Tìm thấy ${result.tongDonHang} đơn hàng`;
+        status.textContent = `✅ Hoàn thành! Tìm thấy ${result.tongDonHang} đơn hàng`;
         progress.style.display = 'none';
+
+        // Gửi thông báo
+        await chrome.notifications.create({
+            type: 'basic',
+            iconUrl: 'images/icon128.png',
+            title: '✅ Thống kê hoàn tất!',
+            message: `Năm ${selectedYear}: ${formatPrice(result.tongDonHang)} đơn - ${formatPrice(result.tongTienDaTra)} ₫`,
+            priority: 2
+        });
 
     } catch (err) {
         console.error('Error:', err);
         status.className = 'status error';
-        status.textContent = '' + (err.message || 'Có lỗi xảy ra. Vui lòng thử lại!');
+        status.textContent = '❌ ' + (err.message || 'Có lỗi xảy ra. Vui lòng thử lại!');
         progress.style.display = 'none';
     } finally {
         btn.disabled = false;
@@ -214,7 +254,6 @@ async function fetchShopeeData(year) {
 
 function displayResults(data, year) {
     const resultsDiv = document.getElementById('results');
-    const certMessage = document.getElementById('certMessage');
     const totalAmount = document.getElementById('totalAmount');
     const totalOrders = document.getElementById('totalOrders');
     const totalProducts = document.getElementById('totalProducts');
