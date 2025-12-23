@@ -1,19 +1,19 @@
 # 📊 Shopee Order Statistics
 
-Tiện ích mở rộng Chrome giúp thống kê đơn hàng Shopee của bạn theo năm một cách nhanh chóng và trực quan.
+A Chrome extension that helps you view your Shopee order statistics by year quickly and intuitively.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.0-blue.svg)
 ![Manifest](https://img.shields.io/badge/manifest-v3-green.svg)
 ![License](https://img.shields.io/badge/license-MIT-orange.svg)
 
-## ✨ Tính năng
+## ✨ Features
 
-- 📈 **Thống kê chi tiết**: Xem tổng chi tiêu, số đơn hàng, số sản phẩm đã mua
-- 💰 **Tính toán tiết kiệm**: Biết được bạn đã tiết kiệm được bao nhiêu từ các chương trình giảm giá
-- 📅 **Chọn năm tùy ý**: Xem thống kê từ năm 2016 đến 2025
-- 🚀 **Nhanh chóng**: Tự động fetch và tính toán từ API Shopee
-- 🎨 **Giao diện đẹp mắt**: Thiết kế hiện đại với màu sắc Shopee chính thống
-- 🔒 **An toàn**: Không lưu trữ bất kỳ dữ liệu cá nhân nào
+- 📈 **Detailed Statistics**: View total spending, number of orders, and products purchased
+- 💰 **Calculate Savings**: Know how much you've saved from discount programs
+- 📅 **Any Year**: View statistics from year 2000 to 2025
+- 🚀 **Fast**: Automatically fetch and calculate from Shopee API
+- 🎨 **Beautiful Interface**: Modern design with official Shopee colors
+- 🔒 **Secure**: No personal data is stored
 
 ## 📸 Screenshot
 <img src="images/demo.jpg" alt="demo1" width="200"/>
@@ -21,116 +21,122 @@ Tiện ích mở rộng Chrome giúp thống kê đơn hàng Shopee của bạn 
 <img src="images/demo.jpg" alt="demo2" width="200"/>
 
 
-## 🚀 Cài đặt
+## 🚀 Installation
 
-### Từ Chrome Web Store
-_(Sẽ cập nhật link khi được publish)_
+### From Chrome Web Store
+[Install from Chrome Web Store](https://chromewebstore.google.com/detail/onbpbhaihdjpedddlimickkodibnpmdg?utm_source=item-share-cb)
 
-### Cài đặt thủ công (Developer Mode)
+### Manual Installation (Developer Mode)
 
-1. Tải xuống hoặc clone repository này:
+1. Download or clone this repository:
 ```bash
 git clone https://github.com/hinh2003/shoppe_order.git
 ```
 
-2. Mở Chrome và truy cập `chrome://extensions/`
+2. Open Chrome and visit `chrome://extensions/`
 
-3. Bật **Developer mode** (góc trên bên phải)
+3. Enable **Developer mode** (top right corner)
 
-4. Click **Load unpacked** và chọn thư mục chứa extension
+4. Click **Load unpacked** and select the folder containing the extension
 
-5. Extension đã sẵn sàng sử dụng! 🎉
+5. Extension is ready to use! 🎉
 
-## 📖 Hướng dẫn sử dụng
+## 📖 Usage Guide
 
-1. **Đăng nhập Shopee**: Mở [shopee.vn](https://shopee.vn) và đăng nhập vào tài khoản của bạn
+1. **Log in to Shopee**: Open [shopee.vn](https://shopee.vn) and log in to your account
 
-2. **Mở Extension**: Click vào icon Shopee Order Statistics trên thanh công cụ Chrome
+2. **Open Extension**: Click the Shopee Order Statistics icon on your Chrome toolbar
 
-3. **Chọn năm**: Chọn năm bạn muốn thống kê từ dropdown menu
+3. **Enter Year**: Enter the year you want to check statistics for
 
-4. **Tính toán**: Click nút "Tính thống kê" và đợi quá trình hoàn tất
+4. **Calculate**: Click the "Calculate Statistics" button and wait for completion
 
-5. **Xem kết quả**: 
-   - Tổng tiền đơn hàng trong năm
-   - Tổng số đơn hàng đã giao
-   - Số lượng sản phẩm đã đặt
-   - Tổng tiền tiết kiệm được
+5. **View Results**: 
+   - Total spending in the year
+   - Total delivered orders
+   - Total products purchased
+   - Total money saved
 
-## 📋 Yêu cầu
+## 📋 Requirements
 
-- Google Chrome phiên bản 88 trở lên
-- Tài khoản Shopee đã đăng nhập
-- Kết nối internet ổn định
+- Google Chrome version 88 or higher
+- Shopee account logged in
+- Stable internet connection
 
-## 🔐 Quyền truy cập
+## 🔐 Permissions
 
-Extension này yêu cầu các quyền sau:
+This extension requires the following permissions:
 
-- `cookies`: Để kiểm tra trạng thái đăng nhập Shopee
-- `scripting`: Inject script để lấy dữ liệu đơn hàng
-- `activeTab`: Tương tác với tab Shopee đang mở
-- `host_permissions`: Chỉ hoạt động trên domain shopee.vn
+- `cookies`: To check Shopee login status
+- `scripting`: Inject script to fetch order data
+- `activeTab`: Interact with open Shopee tab
+- `host_permissions`: Only works on shopee.vn domain
 
-**Lưu ý**: Extension không lưu trữ hoặc gửi dữ liệu của bạn đến bất kỳ server nào. Mọi tính toán đều được thực hiện local trên trình duyệt của bạn.
+**Note**: The extension does not store or send your data to any server. All calculations are performed locally on your browser.
 
-## 🐛 Báo lỗi
+## 🐛 Report Issues
 
-Nếu bạn gặp bất kỳ vấn đề nào, vui lòng:
+If you encounter any problems, please:
 
-1. Kiểm tra bạn đã đăng nhập Shopee chưa
-2. Đảm bảo bạn đang ở trang shopee.vn
-3. Thử tải lại trang và extension
-4. Nếu vẫn lỗi, hãy [tạo issue](https://github.com/yourusername/shopee-order-statistics/issues) với thông tin chi tiết
+1. Check if you are logged into Shopee
+2. Make sure you are on the shopee.vn page
+3. Try reloading the page and extension
+4. If still having issues, [create an issue](https://github.com/yourusername/shopee-order-statistics/issues) with details
 
-## 🤝 Đóng góp
+## 🤝 Contributing
 
-Mọi đóng góp đều được chào đón! 
+All contributions are welcome! 
 
-1. Fork repository
-2. Tạo branch mới (`git checkout -b feature/AmazingFeature`)
-3. Commit thay đổi (`git commit -m 'Add some AmazingFeature'`)
-4. Push lên branch (`git push origin feature/AmazingFeature`)
-5. Mở Pull Request
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📝 Changelog
 
+### Version 2.0 (2025)
+- ✨ Converted to Side Panel
+- 📊 Order statistics by year
+- 💰 Calculate savings
+- 🎨 Intuitive user interface
+
 ### Version 1.0.0 (2025)
-- ✨ Phát hành phiên bản đầu tiên
-- 📊 Thống kê đơn hàng theo năm
-- 💰 Tính toán tiền tiết kiệm
-- 🎨 Giao diện người dùng trực quan
+- ✨ Initial release
+- 📊 Order statistics by year
+- 💰 Calculate money saved
+- 🎨 Intuitive user interface
 
 ## 📄 License
 
-Dự án này được phát hành dưới giấy phép MIT - xem file [LICENSE](LICENSE) để biết thêm chi tiết.
+This project is released under the MIT License - see the [LICENSE](LICENSE) file for more details.
 
-## 👨‍💻 Tác giả
+## 👨‍💻 Author
 
 - GitHub: [@hinh2003](https://github.com/hinh2003)
 
 ## ⭐ Support
 
-Nếu bạn thấy extension hữu ích, hãy cho một ⭐ trên GitHub!
+If you find this extension useful, please give it a ⭐ on GitHub!
 
 ## ☕ Donate
 
-Nếu extension này giúp ích cho bạn, hãy mời tôi một ly cà phê! ❤️
+If this extension has been helpful to you, buy me a coffee! ❤️
 
 ### Momo
 <img src="images/qr-momo.jpg" alt="Momo QR" width="200"/>
 
-**Hoặc chuyển khoản trực tiếp:**
-- 💳 Số tài khoản: `04242595201`
-- 🏦 Ngân hàng: `TP Bank`
-- 👤 Chủ tài khoản: `NGUYEN VAN TUAN HINH`
+**Or transfer directly:**
+- 💳 Account number: `04242595201`
+- 🏦 Bank: `TP Bank`
+- 👤 Account holder: `NGUYEN VAN TUAN HINH`
 
 
-Cảm ơn bạn rất nhiều! 🙏
+Thank you very much! 🙏
 
-## 📞 Liên hệ
+## 📞 Contact
 
-Có câu hỏi? Hãy tạo [issue](https://github.com/hinh2003/shopee-order-statistics/issues) hoặc liên hệ trực tiếp qua GitHub.
+Have questions? [Create an issue](https://github.com/hinh2003/shoppe-order-statistics/issues) or contact directly via GitHub.
 
 ## 🔒 Privacy Policy
 
@@ -140,17 +146,15 @@ All data is processed entirely on your device — no information is transmitted 
 
 Permissions explanation:
 
-cookies: Used to verify Shopee login status
-
-storage: Used to store user settings (e.g., selected year)
-
-scripting: Used to inject code into Shopee pages to calculate order statistics
-
-activeTab: Used to interact with the active Shopee tab
+- `cookies`: Used to verify Shopee login status
+- `storage`: Used to store user settings (e.g., selected year)
+- `scripting`: Used to inject code into Shopee pages to calculate order statistics
+- `activeTab`: Used to interact with the active Shopee tab
 
 Shopee Order does not include advertising, analytics, or tracking of any kind.
 If you have any questions, please contact us via the Chrome Web Store developer contact page.
 
 ---
 
-**Lưu ý**: Extension này không liên kết chính thức với Shopee. Đây là dự án độc lập được tạo ra để giúp người dùng thống kê đơn hàng của họ dễ dàng hơn.
+**Note**: This extension is not officially affiliated with Shopee. This is an independent project created to help users track their orders more easily.
+
