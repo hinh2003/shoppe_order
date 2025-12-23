@@ -1,27 +1,35 @@
 {
   "manifest_version": 3,
-  "name": "Shopee Order Statistics",
-  "description": "Thống kê chi tiêu và số đơn hàng Shopee theo từng năm (2016-2025). Dữ liệu xử lý cục bộ, không gửi ra ngoài.",
-  "version": "1.0.0",
-  "icons": {
-    "16": "images/icon16.png",
-    "48": "images/icon48.png",
-    "128": "images/icon128.png"
-  },
+  "name": "Thống Kê Shopee",
+  "version": "2.0",
+  "description": "Xem thống kê chi tiêu trên Shopee theo năm",
   "permissions": [
     "cookies",
     "scripting",
-    "activeTab"
+    "activeTab",
+    "storage",
+    "notifications",
+    "sidePanel"
   ],
   "host_permissions": [
-    "https://shopee.vn/*"
+    "https://*.shopee.vn/*"
   ],
   "action": {
-    "default_popup": "popup.html",
     "default_icon": {
       "16": "images/icon16.png",
       "48": "images/icon48.png",
       "128": "images/icon128.png"
     }
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
   }
 }
