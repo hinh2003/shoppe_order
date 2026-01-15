@@ -48,10 +48,38 @@ async function loadSavedResults() {
 async function checkShopeeSession() {
     try {
         const cookies = await chrome.cookies.getAll({ domain: '.shopee.vn' });
-        const requiredCookies = ['SPC_EC', 'SPC_U'];
+        
+        // Log tất cả cookies để debug
+        console.log('🍪 Tất cả cookies Shopee:', cookies.map(c => c.name));
+        
+        // Các cookies có thể cần thiết (kiểm tra nhiều hơn)
+        const possibleCookies = [
+            'SPC_EC',      // Session cookie chính
+            'SPC_U',       // User ID
+            'SPC_R_T_ID',  // Request tracking
+            'SPC_T_ID',    // Tracking ID
+            'SPC_SI',      // Session info
+            'SPC_ST',      // Session token
+            'csrftoken',   // CSRF protection
+            'shopee_token' // Shopee token mới?
+        ];
+        
         const foundCookies = cookies.map(c => c.name);
-        const hasAllRequired = requiredCookies.every(name => foundCookies.includes(name));
-        return hasAllRequired;
+        
+        // Log từng cookie quan trọng
+        possibleCookies.forEach(name => {
+            const exists = foundCookies.includes(name);
+            console.log(`  ${exists ? '✅' : '❌'} ${name}`);
+        });
+        
+        // Kiểm tra ít nhất có SPC_EC hoặc SPC_U
+        const hasMinimum = foundCookies.includes('SPC_EC') || foundCookies.includes('SPC_U');
+        
+        if (!hasMinimum) {
+            console.warn('⚠️ Không tìm thấy cookies cần thiết!');
+        }
+        
+        return hasMinimum;
     } catch (error) {
         console.error('Lỗi khi kiểm tra cookie:', error);
         return false;
@@ -82,7 +110,8 @@ async function startCalculation() {
         const results = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: fetchShopeeData,
-            args: [selectedYear]
+            args: [selectedYear],
+            world: 'MAIN'  // Chạy trong MAIN world để có full access tới cookies
         });
 
         if (!results || results.length === 0) {
@@ -162,6 +191,7 @@ async function fetchShopeeData(year) {
         
         const csrftoken = getCsrfToken();
         
+        // Headers cập nhật theo Shopee mới nhất
         const headers = {
             'accept': 'application/json',
             'content-type': 'application/json',
@@ -169,12 +199,21 @@ async function fetchShopeeData(year) {
             'x-requested-with': 'XMLHttpRequest',
             'x-shopee-language': 'vi',
             'referer': 'https://shopee.vn/user/purchase/',
-            'af-ac-enc-dat': 'null'
+            'af-ac-enc-dat': 'null',
+            'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin'
         };
         
         if (csrftoken) {
             headers['x-csrftoken'] = csrftoken;
         }
+        
+        console.log('🌐 Sending request with headers:', headers);
+        console.log('🔐 CSRF Token:', csrftoken ? csrftoken.substring(0, 10) + '...' : 'NONE');
         
         const response = await fetch(url, {
             method: 'GET',
@@ -182,13 +221,18 @@ async function fetchShopeeData(year) {
             headers: headers
         });
 
+        console.log('📡 Response status:', response.status);
+
         if (!response.ok) {
             const errorText = await response.text();
             console.error('API Error:', response.status, errorText);
             throw new Error(`HTTP ${response.status}: Không thể lấy dữ liệu. Vui lòng đảm bảo bạn đã đăng nhập Shopee.`);
         }
 
-        return response.json();
+        const data = await response.json();
+        console.log('📦 Response data structure:', Object.keys(data));
+        
+        return data;
     }
 
     function processOrders(orders, accum, year, priceDiv) {
@@ -220,8 +264,31 @@ async function fetchShopeeData(year) {
         
         let data = await fetchPage(0);
 
-        if (!data || !data.data || !data.data.details_list) {
-            throw new Error('Dữ liệu trả về không hợp lệ. Vui lòng đảm bảo bạn đã đăng nhập Shopee và đang ở trang shopee.vn');
+        // Debug: Log response để kiểm tra
+        console.log('API Response:', data);
+        console.log('Response type:', typeof data);
+        console.log('Has data property:', 'data' in data);
+
+        // Kiểm tra null/undefined
+        if (!data) {
+            throw new Error('⚠️ Không nhận được phản hồi từ Shopee API. Vui lòng kiểm tra kết nối internet và thử lại.');
+        }
+
+        // Kiểm tra lỗi từ API
+        if (data.error !== undefined && data.error !== 0) {
+            const errorMsg = data.error_msg || data.msg || 'Lỗi không xác định';
+            throw new Error(`⚠️ Lỗi API Shopee (${data.error}): ${errorMsg}\n\n🔐 Vui lòng:\n1. Đăng xuất Shopee\n2. Đăng nhập lại\n3. Thử lại extension`);
+        }
+
+        // Kiểm tra cấu trúc dữ liệu
+        if (!data.data) {
+            console.error('Data structure:', Object.keys(data));
+            throw new Error('⚠️ Dữ liệu trả về không đúng định dạng.\n\n💡 Nguyên nhân có thể:\n- Shopee đã thay đổi API\n- Phiên đăng nhập hết hạn\n\n🔄 Hãy thử:\n1. Tải lại trang Shopee\n2. Đăng nhập lại\n3. Thử lại extension');
+        }
+
+        if (!data.data.details_list) {
+            console.error('Data.data structure:', Object.keys(data.data));
+            throw new Error('⚠️ Không tìm thấy danh sách đơn hàng.\n\n✅ Đảm bảo:\n1. Bạn đã đăng nhập Shopee\n2. Đang ở trang shopee.vn\n3. Có ít nhất 1 đơn hàng đã giao');
         }
 
         let orders = data.data.details_list;
